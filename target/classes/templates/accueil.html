@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout1}">
+<head>
+<title>Accueil</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+	crossorigin="anonymous">
+<style>
+body {
+	background-color: #f8f9fa;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.user-info-box {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	padding: 30px;
+	margin-top: 50px;
+	text-align: center;
+}
+
+.user-info-box h1 {
+	font-size: 2rem;
+	color: #333;
+	margin-bottom: 20px;
+}
+
+.user-info-box p {
+	font-size: 1.1rem;
+	color: #666;
+	margin-bottom: 10px;
+}
+
+.congrats-message, .warning-message {
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin-top: 20px;
+	color: #28a745;
+}
+
+.warning-message {
+	color: #dc3545;
+}
+
+#logoutBtn {
+	background-color: #001f3f;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-top: 20px;
+}
+
+#logoutBtn:hover {
+	background-color: #c82333;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row justify-content-center">
+
+				<div class="col-md-12">
+					<div class="user-info-box">
+				<form th:action="@{/home}" method="get" class="modern-form">
+						<h1>
+							Bienvenue, <span th:text="${username}"></span>
+						</h1>
+						<p>
+							Poste: <span class="ml-2" th:text="${type_utilisateur}"></span>
+						</p>
+						<p>
+							Date d'embauchement: <span class="ml-2" th:text="${dateE}"></span>
+						</p>
+						<p>
+							Nombre de Jours Restant: <span class="ml-2" th:text="${nbjc}"></span>
+						</p>
+						<div th:if="${workedOneYear}" class="congrats-message">
+							Toutes nos félicitations! Vous travaillez depuis au moins un an.
+						</div>
+						<div th:unless="${workedOneYear}" class="warning-message">
+							Tu dois travailler au moins 1 an.</div>
+					</form>
+
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

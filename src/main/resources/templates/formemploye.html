@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout1}">
+<head>
+    <title>Fiche d'un employe</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"
+          th:href="@{/css/style.css}" />
+          
+          <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #001f3f;
+            border-color: #001f3f;
+            color: #fff;
+           
+        }
+
+        .btn-primary:hover {
+        
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        /* CSS pour rendre les champs invisibles */
+        .invisible {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        </header>
+
+    <section>
+    	<div layout:fragment="content">
+        <div class="container">
+            <h1>Fiche d'un employe</h1>
+
+            <form th:action="@{/employe/save}" method="post" th:object="${employe}">
+                <div class="form-group">
+                    <label for="code" class="control-label">Code</label>
+                    <input type="text" class="form-control" id="code" th:field="*{code}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nom" class="control-label">Nom</label>
+                    <input type="text" class="form-control" id="nom" th:field="*{nom}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom" class="control-label">Prenom</label>
+                    <input type="text" class="form-control" id="prenom" th:field="*{prenom}" required>
+                </div>
+
+      <div class="form-group">
+            <label for="dateE" class="control-label">Date d'embauchement</label>
+            <input type="date" class="form-control" id="dateE"
+                   th:field="*{dateE}" required>
+        </div>
+
+                <div class="form-group">
+                    <label for="login" class="control-label">Login</label>
+                    <input type="text" class="form-control" id="login" th:field="*{login}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </form>
+        </div>
+        </div>
+    </section>
+
+    <footer>
+        </footer>
+
+</body>
+</html>

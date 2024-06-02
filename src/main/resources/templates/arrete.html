@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout1}">
+<head>
+    <meta charset="UTF-8">
+    <title>Arrête Congé</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            font-weight: bold;
+        }
+        
+        input[type="date"],
+        button {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: #00509e;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+             font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <form id="myForm" th:action="@{/conge/submit(username=${username}, type_utilisateur=${type_utilisateur},dateE=${dateE})}" method="post">
+        <label for="dateRupture">Date de Rupture :</label>
+        <input type="date" id="dateRupture" name="dateRupture" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"><br><br>
+        <button type="submit">Enregistrer</button>
+        <input type="hidden" name="id" th:value="${conge.id}">
+    </form>
+</div>
+</body>
+</html>

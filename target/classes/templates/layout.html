@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+<title>Gestion de Conge</title>
+<link rel="stylesheet" type="text/css"
+	href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" href="../static/css/style.css"
+	th:href="@{css/style.css}" />
+</head>
+<body>
+	<header>
+		<div class="navbar navbar-default">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav">
+					<li><a th:href="@{/conge/index(username=${username}, type_utilisateur=${type_utilisateur},dateE=${dateE})}">Liste des conges</a></li>
+					<li><a th:href="@{../conge/form(username=${username}, type_utilisateur=${type_utilisateur},dateE=${dateE})}">Fiche Conge</a></li>
+					<li><a th:href="@{../employe/index}">Liste des employees</a></li>
+					<li><a th:href="@{../employe/form}">Fiche Employe</a></li>
+					<li><a th:href="@{../admin/index}">Liste des Administrateurs</a></li>
+					<li><a th:href="@{../admin/form}">Fiche d'Administrateur</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header text-center">
+                        <h1>Welcome, <span th:text="${username}"></span>!</h1>
+                           <span th:text="${type_utilisateur}"></span>
+                             <span th:text="${dateE}"></span>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div> 
+	</header>
+	<section layout:fragment="content"></section>
+	<footer class="navbar-fixed-bottom">
+		<hr />
+		<div class="container">
+			<small> ----Gestion de Conge---- </small>
+		</div>
+	</footer>
+</body>
+</html>

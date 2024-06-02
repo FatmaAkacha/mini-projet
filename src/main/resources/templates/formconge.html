@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout1}">
+
+<head>
+    <title>Demande de congé</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #001f3f;
+            border-color: #001f3f;
+            color: #fff;
+           
+        }
+
+        .btn-primary:hover {
+        
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        /* CSS pour rendre les champs invisibles */
+        .invisible {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <h1>Demande de Congé</h1>
+
+
+        <form th:action="@{/conge/save}" method="post" th:object="${conge}">
+<div th:if="${#fields.hasErrors('*')}">
+        <div class="alert alert-danger">
+            <ul>
+                <li th:each="error : ${#fields.errors('*')}" th:text="${error}"></li>
+            </ul>
+        </div>
+    </div>
+            <div class="form-group">
+                <label for="description" class="control-label">Description</label>
+                <input type="text" class="form-control" id="description"
+                       th:field="*{description}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dateDebut" class="control-label">Date de début</label>
+                <input type="date" class="form-control" id="dateDebut"
+                       th:field="*{dateDebut}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dateFin" class="control-label">Date de fin</label>
+                <input type="date" class="form-control" id="dateFin"
+                       th:field="*{dateFin}" required>
+            </div>
+
+            <div class="form-group invisible"> <!-- Champ invisible -->
+                <label for="dateRupture" class="control-label">Date de reprise</label>
+                <input type="date" class="form-control" id="dateRupture"
+                       th:field="*{dateRupture}">
+            </div>
+
+            <div class="form-group invisible"> <!-- Champ invisible -->
+                <label class="control-label">État</label>
+                <select class="form-control" th:field="*{etat}">
+                    <option value="Sollicitee">Sollicitée</option>
+                    <option value="Validee">Validée</option>
+                    <option value="Refusee">Refusée</option>
+                    <option value="Annulee">Annulée</option>
+                    <option value="En cours">En cours</option>
+                    <option value="Arrete">Arrêtée</option>
+                    <option value="Fini">Finie</option>
+                </select>
+            </div>
+
+            <div class="form-group invisible"> <!-- Champ invisible -->
+                <label class="control-label">Employé</label>
+                <select class="form-control" th:field="*{employe}">
+                    <option th:each="c:${employe}" th:value="${c.id}"
+                            th:text="${c.login}" />
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

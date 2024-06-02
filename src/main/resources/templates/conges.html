@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout1}">
+
+<head>
+    <title>Liste des Congés</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: normal;
+        }
+
+        th {
+            background-color: #fff;
+            color: #000000;
+            font-weight: bold;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #000000;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .btn {
+            background-color: #fff;
+            border: 1px solid #000000;
+        }
+
+        .table-row.etat-Sollicitee {
+            background-color: #A7E0E0;
+        }
+
+        .table-row.etat-VALIDE {
+            background-color: #4AA3A2;
+        }
+
+        .table-row.etat-REFUSE {
+            background-color: #DB6A8F;
+        }
+
+        .table-row.etat-ANNULE {
+            background-color: #E8AABE;
+        }
+
+        .table-row.etat-EN_COURS {
+            background-color: #6297ff;
+        }
+
+        .table-row.etat-ARRETE {
+            background-color: #CA3C66;
+        }
+
+        .table-row.etat-FINI {
+            background-color: #08C5D1;
+        }
+
+        .table-row {
+            background-color: #ffffff;
+        }
+
+        .modern-form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .modern-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modern-form label {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .modern-form .btn-primary {
+            background-color: #001f3f;
+            border-color: #001f3f;
+        }
+
+        .modern-form .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .modern-form .form-control {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h3>Liste des Congés</h3>
+    <div class="container">
+        <!-- Formulaire de recherche par état -->
+        <form th:action="@{/conge/index}" method="get" class="modern-form">
+            <input type="hidden" name="username" th:value="${username}" />
+            <input type="hidden" name="type_utilisateur" th:value="${type_utilisateur}" />
+
+            <div class="form-group">
+                <label for="etat">Rechercher par État:</label>
+                <select class="form-control" id="etat" name="etat">
+                    <option value="">Tous</option>
+                    <option value="Sollicitee">Sollicitee</option>
+                    <option value="VALIDE">VALIDE</option>
+                    <option value="REFUSE">REFUSE</option>
+                    <option value="ANNULE">ANNULE</option>
+                    <option value="EN_COURS">EN_COURS</option>
+                    <option value="ARRETE">ARRETE</option>
+                    <option value="FINI">FINI</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="annee">Rechercher par Année:</label>
+                <input type="text" class="form-control" id="annee" name="annee" th:value="${annee}" placeholder="Année" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Chercher</button>
+        </form>
+
+        <!-- Formulaire de recherche par employé -->
+        <form th:if="${type_utilisateur == 'administrateur'}" th:action="@{/conge/index}" method="get" class="modern-form">
+            <input type="hidden" name="username" th:value="${username}" />
+            <input type="hidden" name="type_utilisateur" th:value="${type_utilisateur}" />
+
+            <div class="form-group">
+                <label for="motCle2">Rechercher par Employé:</label>
+                <input type="text" class="form-control" id="motCle2" name="motCle2" th:value="${motCle2}" placeholder="Employee" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Chercher</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <!-- Tableau des congés -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Date Debut</th>
+                    <th>Date Fin</th>
+                    <th>Date Rupture</th>
+                    <th>Etat</th>
+                    <th>Employé</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Boucle sur les congés -->
+                <tr th:each="cn : ${conges}" th:class="'table-row etat-' + ${cn.etat}">
+                    <!-- Données de chaque congé -->
+                    <td th:text="${cn.id}"></td>
+                    <td th:text="${cn.description}"></td>
+                    <td th:text="${#dates.format(cn.dateDebut, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#dates.format(cn.dateFin, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#dates.format(cn.dateRupture, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${cn.etat}"></td>
+<td th:text="${cn.employe != null ? cn.employe.login : 'Non défini'}"></td>
+                    <td>
+                        <!-- Actions en fonction du type d'utilisateur -->
+                        <div th:if="${type_utilisateur == 'employe'}">
+                            <form th:action="@{/conge/annuler(username=${username}, type_utilisateur=${type_utilisateur},dateE=${dateE})}" method="post">
+                                <input type="hidden" name="id" th:value="${cn.id}" />
+                                <input type="hidden" name="username" th:value="${username}" />
+                                <input type="hidden" name="type_utilisateur" th:value="${type_utilisateur}" />
+                                <button type="submit" class="btn">Annuler</button>
+                            </form>
+                        </div>
+                        <div th:if="${type_utilisateur == 'administrateur'}">
+                            <form th:action="@{/conge/valider(username=${username}, type_utilisateur=${type_utilisateur},dateE=${dateE})}" method="post" style="display: inline;">
+                                <input type="hidden" name="id" th:value="${cn.id}" />
+                                <input type="hidden" name="username" th:value="${username}" />
+                                <input type="hidden" name="type_utilisateur" th:value="${type_utilisateur}" />
+                                <button type="submit" class="btn">Valider</button>
+                            </form>
+                            <form th:action="@{/conge/refuser(username=${username}, type_utilisateur=${type_utilisateur},dateE=${dateE})}" method="post" style="display: inline;">
+                                <input type="hidden" name="id" th:value="${cn.id}" />
+                                <input type="hidden" name="username" th:value="${username}" />
+                                <input type="hidden" name="type_utilisateur" th:value="${type_utilisateur}" />
+                                <button type="submit" class="btn">Refuser</button>
+                            </form>
+                            <form th:action="@{/conge/arrete(username=${username}, type_utilisateur=${type_utilisateur},dateE=${dateE})}" method="post" style="display: inline;">
+                            <input type="hidden" name="id" th:value="${cn.id}" />
+                            <button type="submit" class="btn">Arrete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
